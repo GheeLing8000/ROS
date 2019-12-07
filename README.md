@@ -1,9 +1,11 @@
 # ROS
 #PythonForRobotics_Unit6_MicroProject#
 //Code starts from line 4//
-    from robot_control_class import RobotControl
-    robotcontrol = RobotControl()
-    a = robotcontrol.get_laser(360)
+//Import libraries//
+
+from robot_control_class import RobotControl
+robotcontrol = RobotControl()
+a = robotcontrol.get_laser(360)
 
 if a > 1 :
     robotcontrol.move_straight_time("forward", 0.3, 14)
