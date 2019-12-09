@@ -1,0 +1,59 @@
+#topics_quis_sub.py#
+import rospy
+from sensor_msgs.msg import LaserScan
+from geometry_msgs.msg import Twist
+import time
+
+rospy.init_node('topics_quiz_node')
+pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+rate = rospy.Rate(2)
+move = Twist()
+move.linear.x = 0.0
+move.angular.z = 0.0
+
+pub.publish(move)
+
+
+def callback(msg):
+    #print msg.ranges[360]# #print distance to an obstacle in front of robot#
+
+    if msg.ranges[360] > 1.0:
+        move.linear.x = 0.1
+        move.angular.z = 0.0
+
+
+    elif msg.ranges[360] <= 1.0:
+        move.linear.x = 0.0
+        move.angular.z = 4.0
+
+
+    elif msg.ranges[719] <= 1.0:
+        move.linear.x = 0.0
+        move.angular.z = -4.0
+
+
+    elif msg.ranges[0] <= 1.0:
+        move.linear.x = 0.0
+        move.angular.z = 4.0
+    else :
+        move.linear.x = 0.0001
+        move.angular.z = 0.0
+    pub.publish(move)
+
+rospy.init_node('topics_quiz_node')
+sub = rospy.Subscriber('/kobuki/laser/scan', LaserScan, callback)
+move = Twist()
+rate = rospy.Rate(2)
+rospy.spin()
+
+#topics_quiz_sublaunch.launch#
+<launch>
+    <node pkg="topics_quiz" type="topics_quis_sub.py" name="topics_quiz_node" output="screen">
+    </node>
+</launch>
+#Compile files found in folder topics_quiz containing topics_quiz_sublaunch.launch and topics_quis_sub.py#
+user: ~ $ catkin_make --only-pkg-with-deps topics_quiz
+user: ~ $ roslaunch topics_quiz topics_quiz_sublaunch.launch
+
+
+
