@@ -55,5 +55,5 @@ rospy.spin()
 user: ~ $ catkin_make --only-pkg-with-deps topics_quiz
 user: ~ $ roslaunch topics_quiz topics_quiz_sublaunch.launch
 
-
+# See video https://www.youtube.com/watch?v=dGzRh6MkIEY #
 
